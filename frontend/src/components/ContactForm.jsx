@@ -1,31 +1,66 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import '/src/App.css'
 
-function ContactForm({ contacts, setContacts }) {
+function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdition }) {
   const [nom, setNom] = useState("")
   const [prenom, setPrenom] = useState("")
   const [telephone, setTelephone] = useState("")
   const [email, setEmail] = useState("")
   const [mess, setMess] = useState(false)
 
+  // Quand on clique sur "Modifier", on pré-remplit le formulaire
+  useEffect(() => {
+    if (contactEnEdition) {
+      setNom(contactEnEdition.nom)
+      setPrenom(contactEnEdition.prenom)
+      setTelephone(contactEnEdition.telephone)
+      setEmail(contactEnEdition.email)
+    }
+  }, [contactEnEdition])
+
+  const resetForm = () => {
+    setNom("")
+    setPrenom("")
+    setTelephone("")
+    setEmail("")
+  }
+
   const handleSubmitAdd = (event) => {
     event.preventDefault()
-    axios.post('http://localhost:8000/api/contacts/', {
-      nom, prenom, telephone, email
-    })
-    .then(response => {
-      setContacts([...contacts, response.data])
-      setNom("")
-      setPrenom("")
-      setTelephone("")
-      setEmail("")
-      setMess(true)
-      setTimeout(() => setMess(false), 2000)
-    })
-    .catch(error => {
-      console.error("Erreur lors de l'ajout du contact :", error)
-    })
+
+    if (contactEnEdition) {
+      // Mode modification → PUT
+      axios.put(`http://localhost:8000/api/contacts/${contactEnEdition.id}/`, {
+        nom, prenom, telephone, email
+      })
+      .then(response => {
+        setContacts(contacts.map(c => c.id === response.data.id ? response.data : c))
+        setContactEnEdition(null)
+        resetForm()
+        setMess(true)
+        setTimeout(() => setMess(false), 2000)
+      })
+      .catch(error => console.error("Erreur lors de la modification :", error))
+
+    } else {
+      // Mode ajout → POST
+      axios.post('http://localhost:8000/api/contacts/', {
+        nom, prenom, telephone, email
+      })
+      .then(response => {
+        setContacts([...contacts, response.data])
+        resetForm()
+        setMess(true)
+        setTimeout(() => setMess(false), 2000)
+      })
+      .catch(error => console.error("Erreur lors de l'ajout du contact :", error))
+    }
+  }
+
+  const handleCancelEdit = () => {
+    setContactEnEdition(null)
+    resetForm()
   }
 
   const handleChangeNom = (event) => setNom(event.target.value)
@@ -40,8 +75,15 @@ function ContactForm({ contacts, setContacts }) {
         <input type="text" placeholder='Prénom' onChange={handleChangePrenom} value={prenom} required />
         <input type="text" placeholder='Numéro téléphone' onChange={handleChangeTelephone} value={telephone} required />
         <input type="text" placeholder='Email' onChange={handleChangeEmail} value={email} required />
-        <button type='submit'>Ajouter</button>
-        {mess && (<p className='mess'>Contact ajouté avec succès</p>)}
+        <button type='submit'>{contactEnEdition ? "Modifier" : "Ajouter"}</button>
+        {contactEnEdition && (
+          <button type="button" onClick={handleCancelEdit}>Annuler</button>
+        )}
+        {mess && (
+          <p className='mess'>
+            {contactEnEdition ? "Contact modifié avec succès" : "Contact ajouté avec succès"}
+          </p>
+        )}
       </form>
     </div>
   )
