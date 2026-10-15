@@ -4,7 +4,7 @@ Application web full-stack pour gérer ses contacts : ajouter, consulter, recher
 
 Projet réalisé pour apprendre la communication entre un front-end **React** et une API **Django REST Framework** adossée à une base **PostgreSQL**.
 
-![Aperçu de l'application](docs/screenshot.png)
+![Aperçu de l'application](docs/Capture.PNG)
 
 ## ✨ Fonctionnalités
 
