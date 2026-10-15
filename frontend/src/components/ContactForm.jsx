@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import '/src/App.css'
 
 function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdition }) {
   const [nom, setNom] = useState("")
   const [prenom, setPrenom] = useState("")
   const [telephone, setTelephone] = useState("")
   const [email, setEmail] = useState("")
+  const [categorie, setCategorie] = useState("Ami")
   const [mess, setMess] = useState(false)
 
-  // Quand on clique sur "Modifier", on pré-remplit le formulaire
   useEffect(() => {
     if (contactEnEdition) {
       setNom(contactEnEdition.nom)
       setPrenom(contactEnEdition.prenom)
       setTelephone(contactEnEdition.telephone)
       setEmail(contactEnEdition.email)
+      setCategorie(contactEnEdition.categorie || "Ami")
     }
   }, [contactEnEdition])
 
@@ -24,37 +24,35 @@ function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdit
     setPrenom("")
     setTelephone("")
     setEmail("")
+    setCategorie("Ami")
   }
 
-  const handleSubmitAdd = (event) => {
+  const afficherMessage = () => {
+    setMess(true)
+    setTimeout(() => setMess(false), 2000)
+  }
+
+  const handleSubmit = (event) => {
     event.preventDefault()
+    const donnees = { nom, prenom, telephone, email, categorie }
 
     if (contactEnEdition) {
-      // Mode modification → PUT
-      axios.put(`http://localhost:8000/api/contacts/${contactEnEdition.id}/`, {
-        nom, prenom, telephone, email
-      })
-      .then(response => {
-        setContacts(contacts.map(c => c.id === response.data.id ? response.data : c))
-        setContactEnEdition(null)
-        resetForm()
-        setMess(true)
-        setTimeout(() => setMess(false), 2000)
-      })
-      .catch(error => console.error("Erreur lors de la modification :", error))
-
+      axios.put(`http://localhost:8000/api/contacts/${contactEnEdition.id}/`, donnees)
+        .then(response => {
+          setContacts(contacts.map(c => c.id === response.data.id ? response.data : c))
+          setContactEnEdition(null)
+          resetForm()
+          afficherMessage()
+        })
+        .catch(error => console.error("Erreur lors de la modification :", error))
     } else {
-      // Mode ajout → POST
-      axios.post('http://localhost:8000/api/contacts/', {
-        nom, prenom, telephone, email
-      })
-      .then(response => {
-        setContacts([...contacts, response.data])
-        resetForm()
-        setMess(true)
-        setTimeout(() => setMess(false), 2000)
-      })
-      .catch(error => console.error("Erreur lors de l'ajout du contact :", error))
+      axios.post('http://localhost:8000/api/contacts/', donnees)
+        .then(response => {
+          setContacts([...contacts, response.data])
+          resetForm()
+          afficherMessage()
+        })
+        .catch(error => console.error("Erreur lors de l'ajout du contact :", error))
     }
   }
 
@@ -63,29 +61,52 @@ function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdit
     resetForm()
   }
 
-  const handleChangeNom = (event) => setNom(event.target.value)
-  const handleChangePrenom = (event) => setPrenom(event.target.value)
-  const handleChangeTelephone = (event) => setTelephone(event.target.value)
-  const handleChangeEmail = (event) => setEmail(event.target.value)
-
   return (
-    <div>
-      <form onSubmit={handleSubmitAdd}>
-        <input type="text" placeholder='Nom' onChange={handleChangeNom} value={nom} required />
-        <input type="text" placeholder='Prénom' onChange={handleChangePrenom} value={prenom} required />
-        <input type="text" placeholder='Numéro téléphone' onChange={handleChangeTelephone} value={telephone} required />
-        <input type="text" placeholder='Email' onChange={handleChangeEmail} value={email} required />
-        <button type='submit'>{contactEnEdition ? "Modifier" : "Ajouter"}</button>
-        {contactEnEdition && (
-          <button type="button" onClick={handleCancelEdit}>Annuler</button>
-        )}
+    <section className="card form-card">
+      <h2>{contactEnEdition ? "Modifier un contact" : "Ajouter un contact"}</h2>
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="form-row">
+          <label className="field">Prénom
+            <input type="text" placeholder="Marta" value={prenom}
+              onChange={e => setPrenom(e.target.value)} required />
+          </label>
+          <label className="field">Nom
+            <input type="text" placeholder="Mendrika" value={nom}
+              onChange={e => setNom(e.target.value)} required />
+          </label>
+        </div>
+        <label className="field">Téléphone
+          <input type="text" placeholder="033 11 923 89" value={telephone}
+            onChange={e => setTelephone(e.target.value)} required />
+        </label>
+        <label className="field">Email
+          <input type="email" placeholder="nom@exemple.com" value={email}
+            onChange={e => setEmail(e.target.value)} required />
+        </label>
+        <label className="field">Catégorie
+          <select value={categorie} onChange={e => setCategorie(e.target.value)}>
+            <option>Ami</option>
+            <option>Famille</option>
+            <option>Travail</option>
+          </select>
+        </label>
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">
+            {contactEnEdition ? "Modifier" : "Ajouter"}
+          </button>
+          {contactEnEdition && (
+            <button type="button" className="btn btn-ghost" onClick={handleCancelEdit}>
+              Annuler
+            </button>
+          )}
+        </div>
         {mess && (
-          <p className='mess'>
+          <p className="mess">
             {contactEnEdition ? "Contact modifié avec succès" : "Contact ajouté avec succès"}
           </p>
         )}
       </form>
-    </div>
+    </section>
   )
 }
 
