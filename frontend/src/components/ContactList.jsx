@@ -3,6 +3,8 @@ import axios from 'axios'
 
 function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const [recherche, setRecherche] = useState("")
+  const PAR_PAGE = 4
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/contacts/')
@@ -20,6 +22,10 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const resultats = contacts.filter(c =>
     `${c.prenom} ${c.nom}`.toLowerCase().includes(recherche.toLowerCase())
   )
+  const totalPages = Math.max(1, Math.ceil(resultats.length / PAR_PAGE))
+  const pageCourante = Math.min(page, totalPages)
+  const debut = (pageCourante - 1) * PAR_PAGE
+  const contactsAffiches = resultats.slice(debut, debut + PAR_PAGE)
 
   const initiales = (c) => `${c.prenom?.[0] ?? ''}${c.nom?.[0] ?? ''}`.toUpperCase()
 
@@ -33,7 +39,8 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
             <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" />
           </svg>
           <input type="text" aria-label="Rechercher un contact" placeholder="Rechercher un contact"
-            value={recherche} onChange={e => setRecherche(e.target.value)} />
+            value={recherche}
+            onChange={e => { setRecherche(e.target.value); setPage(1) }} />
         </label>
       </div>
 
@@ -52,7 +59,7 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
               </tr>
             </thead>
             <tbody>
-              {resultats.map(contact => (
+              {contactsAffiches.map(contact => (
                 <tr key={contact.id}>
                   <td>
                     <div className="contact-cell">
@@ -89,6 +96,28 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
               ))}
             </tbody>
           </table>
+
+          <div className="pagination">
+            <span className="pagination-info">
+              {debut + 1}–{Math.min(debut + PAR_PAGE, resultats.length)} sur {resultats.length}
+            </span>
+            <div className="pagination-buttons">
+              <button className="page-btn" onClick={() => setPage(pageCourante - 1)}
+                disabled={pageCourante === 1}>Précédent</button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                <button key={n}
+                  className={`page-btn ${n === pageCourante ? 'active' : ''}`}
+                  onClick={() => setPage(n)}
+                  aria-current={n === pageCourante ? 'page' : undefined}>
+                  {n}
+                </button>
+              ))}
+
+              <button className="page-btn" onClick={() => setPage(pageCourante + 1)}
+                disabled={pageCourante === totalPages}>Suivant</button>
+            </div>
+          </div>
         </div>
       )}
     </section>

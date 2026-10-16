@@ -189,3 +189,30 @@ tr:last-child td { border-bottom: 0; }
 .icon-btn:hover { background: #25262c; }
 .icon-btn.danger { border-color: #4a2326; color: #f08a8f; }
 .empty { color: var(--muted); margin: 0; }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.pagination-info { font-size: 13px; color: var(--muted); }
+.pagination-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: transparent;
+  color: #c4c6d0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.page-btn:hover:not(:disabled) { background: #25262c; }
+.page-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
