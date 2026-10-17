@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../api'
 
 function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdition }) {
   const [nom, setNom] = useState("")
@@ -37,7 +37,7 @@ function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdit
     const donnees = { nom, prenom, telephone, email, categorie }
 
     if (contactEnEdition) {
-      axios.put(`http://localhost:8000/api/contacts/${contactEnEdition.id}/`, donnees)
+      api.put(`/api/contacts/${contactEnEdition.id}/`, donnees)
         .then(response => {
           setContacts(contacts.map(c => c.id === response.data.id ? response.data : c))
           setContactEnEdition(null)
@@ -46,7 +46,7 @@ function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdit
         })
         .catch(error => console.error("Erreur lors de la modification :", error))
     } else {
-      axios.post('http://localhost:8000/api/contacts/', donnees)
+      api.post('/api/contacts/', donnees)
         .then(response => {
           setContacts([...contacts, response.data])
           resetForm()

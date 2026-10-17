@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../api'
 
 function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const [recherche, setRecherche] = useState("")
@@ -7,14 +7,14 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/contacts/')
+    api.get('/api/contacts/')
       .then(response => setContacts(response.data))
       .catch(error => console.error('Erreur lors du chargement des contacts :', error))
   }, [])
 
   const handleDelete = (id) => {
     if (!window.confirm("Supprimer ce contact ?")) return
-    axios.delete(`http://localhost:8000/api/contacts/${id}/`)
+    api.delete(`/api/contacts/${id}/`)
       .then(() => setContacts(contacts.filter(c => c.id !== id)))
       .catch(error => console.error('Erreur lors de la suppression :', error))
   }
