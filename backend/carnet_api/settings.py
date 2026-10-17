@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',    # pour créer l'API
     'corsheaders',       # pour autoriser React à appeler l'API
-    'contacts',          # ton app créée avec startapp
+    'contacts',          # l'app créée avec startapp
+    'rest_framework.authtoken',   # gestion des tokens
+    'accounts',                   # l'app créée avec startapp
 ]
 
 MIDDLEWARE = [
