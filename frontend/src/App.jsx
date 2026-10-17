@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ContactList from './components/ContactList'
 import ContactForm from './components/ContactForm'
 import AuthForm from './components/AuthForm'
+import api from './api'
 import '/src/App.css'
 
 function App() {
@@ -15,6 +16,20 @@ function App() {
     localStorage.setItem('username', name)
     setToken(newToken)
     setUsername(name)
+  }
+  const handleLogout = () => {
+    const nettoyer = () => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      setContacts([])
+      setContactEnEdition(null)
+      setToken(null)
+      setUsername(null)
+    }
+
+    // On prévient le serveur pour qu'il supprime le token, puis on nettoie
+    // dans tous les cas, même si la requête échoue.
+    api.post('/api/auth/logout/').finally(nettoyer)
   }
 
   if (!token) {
@@ -39,8 +54,16 @@ function App() {
             <p>Gérez vos contacts en un seul endroit</p>
           </div>
         </div>
-        <div className="count-badge">
-          <span>{contacts.length}</span> contact{contacts.length > 1 ? 's' : ''}
+        <div className="header-right">
+          <div className="count-badge">
+            <span>{contacts.length}</span> contact{contacts.length > 1 ? 's' : ''}
+          </div>
+          <div className="user-box">
+            <span className="user-name">{username}</span>
+            <button type="button" className="btn btn-ghost btn-logout" onClick={handleLogout}>
+              Déconnexion
+            </button>
+          </div>
         </div>
       </header>
 

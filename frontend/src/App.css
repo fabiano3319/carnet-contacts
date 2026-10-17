@@ -247,3 +247,10 @@ tr:last-child td { border-bottom: 0; }
   font-size: 13px;
 }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* En-tête : utilisateur connecté */
+.header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.user-box { display: flex; align-items: center; gap: 10px; }
+.user-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.btn-logout { padding: 8px 14px; font-size: 13px; }
+.btn-logout:hover { background: #25262c; }
