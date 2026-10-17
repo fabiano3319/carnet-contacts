@@ -254,3 +254,15 @@ tr:last-child td { border-bottom: 0; }
 .user-name { font-size: 14px; font-weight: 700; color: var(--text); }
 .btn-logout { padding: 8px 14px; font-size: 13px; }
 .btn-logout:hover { background: #25262c; }
+
+/* Logo sur les pages de connexion et d'inscription */
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.auth-brand .logo { margin-bottom: 14px; }
+.auth-brand h1 { margin: 0 0 6px; }
+.auth-brand .subtitle { margin: 0; }

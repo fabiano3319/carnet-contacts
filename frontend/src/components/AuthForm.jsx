@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Logo from './Logo'
 import api from '../api'
 
 function AuthForm({ onAuth }) {
@@ -48,10 +49,13 @@ function AuthForm({ onAuth }) {
   return (
     <div className="auth-wrapper">
       <section className="card auth-card">
-        <h1>Carnet de contacts</h1>
-        <p className="subtitle">
-          {estConnexion ? "Connecte-toi pour accéder à tes contacts" : "Crée ton compte"}
-        </p>
+        <div className="auth-brand">
+            <Logo size={56} />
+            <h1>Carnet de contacts</h1>
+            <p className="subtitle">
+                {estConnexion ? "Connecte-toi pour accéder à tes contacts" : "Crée ton compte"}
+            </p>
+        </div>
 
         <form className="form" onSubmit={handleSubmit}>
           <label className="field">Nom d'utilisateur
