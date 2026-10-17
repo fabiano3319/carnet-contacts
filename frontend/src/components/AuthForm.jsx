@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Logo from './Logo'
 import api from '../api'
+import PasswordInput from './PasswordInput'
 
 function AuthForm({ onAuth }) {
   const [mode, setMode] = useState('login')   // 'login' ou 'register'
@@ -70,10 +71,11 @@ function AuthForm({ onAuth }) {
             </label>
           )}
 
-          <label className="field">Mot de passe
-            <input type="password" value={password}
-              onChange={e => setPassword(e.target.value)} required />
-          </label>
+            <PasswordInput
+                label="Mot de passe"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+            />
 
           {erreur && <p className="error" role="alert">{erreur}</p>}
 

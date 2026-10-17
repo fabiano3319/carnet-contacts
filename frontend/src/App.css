@@ -266,3 +266,25 @@ tr:last-child td { border-bottom: 0; }
 .auth-brand .logo { margin-bottom: 14px; }
 .auth-brand h1 { margin: 0 0 6px; }
 .auth-brand .subtitle { margin: 0; }
+
+/* Champ mot de passe avec bouton afficher/masquer */
+.password-wrap { position: relative; display: flex; }
+.password-wrap input { padding-right: 46px; }
+.toggle-pw {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.toggle-pw:hover { color: var(--text); background: #25262c; }
+.toggle-pw:focus-visible { outline: 2px solid var(--accent); }
