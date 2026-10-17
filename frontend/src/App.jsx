@@ -1,11 +1,25 @@
 import { useState } from 'react'
 import ContactList from './components/ContactList'
 import ContactForm from './components/ContactForm'
+import AuthForm from './components/AuthForm'
 import '/src/App.css'
 
 function App() {
   const [contacts, setContacts] = useState([])
   const [contactEnEdition, setContactEnEdition] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [username, setUsername] = useState(localStorage.getItem('username'))
+
+  const handleAuth = (newToken, name) => {
+    localStorage.setItem('token', newToken)
+    localStorage.setItem('username', name)
+    setToken(newToken)
+    setUsername(name)
+  }
+
+  if (!token) {
+    return <AuthForm onAuth={handleAuth} />
+  }
 
   return (
     <div className="app">

@@ -216,3 +216,34 @@ tr:last-child td { border-bottom: 0; }
 .page-btn:hover:not(:disabled) { background: #25262c; }
 .page-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Authentification */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.auth-card { width: 100%; max-width: 400px; }
+.auth-card h1 { margin: 0 0 6px; font-size: 24px; font-weight: 800; }
+.auth-card .subtitle { margin: 0 0 20px; font-size: 14px; color: var(--muted); }
+.auth-switch { margin: 18px 0 0; text-align: center; font-size: 14px; color: var(--muted); }
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #3a1d20;
+  color: #f4a3a8;
+  font-size: 13px;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
