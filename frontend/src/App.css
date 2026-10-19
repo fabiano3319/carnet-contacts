@@ -288,3 +288,65 @@ tr:last-child td { border-bottom: 0; }
 }
 .toggle-pw:hover { color: var(--text); background: #25262c; }
 .toggle-pw:focus-visible { outline: 2px solid var(--accent); }
+
+/* ---------- Tablette ---------- */
+@media (max-width: 768px) {
+  .app { padding: 24px 16px; gap: 20px; }
+  .app-header h1 { font-size: 22px; }
+  .card { padding: 18px; }
+  .form-card,
+  .list-card { flex: 1 1 100%; }
+  .list-header .search { flex: 1 1 100%; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  /* Le tableau devient une liste de cartes */
+  table, tbody, tr, td { display: block; }
+  table { min-width: 0; }
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  tr {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:last-child { border-bottom: 0; }
+  td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+  td[data-label]::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  td:last-child { justify-content: flex-end; padding-top: 10px; }
+
+  /* Zones tactiles plus grandes */
+  .icon-btn { width: 40px; height: 40px; }
+  .page-btn { min-width: 40px; height: 40px; }
+}
+
+/* ---------- Petit téléphone ---------- */
+@media (max-width: 420px) {
+  .form-row { flex-direction: column; }
+  .header-right { width: 100%; justify-content: space-between; }
+  .pagination { justify-content: center; }
+  .pagination-info { width: 100%; text-align: center; }
+  .pagination-buttons { justify-content: center; }
+}
