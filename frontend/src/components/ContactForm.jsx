@@ -67,21 +67,21 @@ function ContactForm({ contacts, setContacts, contactEnEdition, setContactEnEdit
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-row">
           <label className="field">Prénom
-            <input type="text" placeholder="Marta" value={prenom}
+            <input type="text" placeholder="Votre prénom" value={prenom}
               onChange={e => setPrenom(e.target.value)} required />
           </label>
           <label className="field">Nom
-            <input type="text" placeholder="Mendrika" value={nom}
+            <input type="text" placeholder="Votre nom" value={nom}
               onChange={e => setNom(e.target.value)} required />
           </label>
         </div>
         <label className="field">Téléphone
-          <input type="text" placeholder="033 11 923 89" value={telephone}
+          <input type="text" placeholder="033 33 333 33" value={telephone}
             onChange={e => setTelephone(e.target.value)} required />
         </label>
-        <label className="field">Email
+        <label className="field">Email (facultatif)
           <input type="email" placeholder="nom@exemple.com" value={email}
-            onChange={e => setEmail(e.target.value)} required />
+            onChange={e => setEmail(e.target.value)} />
         </label>
         <label className="field">Catégorie
           <select value={categorie} onChange={e => setCategorie(e.target.value)}>

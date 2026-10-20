@@ -93,7 +93,7 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
                     </div>
                   </td>
                   <td data-label="Téléphone">{contact.telephone}</td>
-                  <td data-label="Email">{contact.email}</td>
+                  <td data-label="Email">{contact.email || '—'}</td>
                   <td data-label="Catégorie">
                     {contact.categorie && (
                       <span
