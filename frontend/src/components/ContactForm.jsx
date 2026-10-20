@@ -13,6 +13,7 @@ function ContactForm({
   const [email, setEmail] = useState("");
   const [categorie, setCategorie] = useState("Ami");
   const [mess, setMess] = useState(false);
+  const [erreur, setErreur] = useState("");
 
   useEffect(() => {
     if (contactEnEdition) {
@@ -54,9 +55,14 @@ function ContactForm({
           resetForm();
           afficherMessage();
         })
-        .catch((error) =>
-          console.error("Erreur lors de la modification :", error),
-        );
+        .catch((error) => {
+          const data = error.response?.data;
+          setErreur(
+            data
+              ? Object.values(data).flat().join(" ")
+              : "Impossible de joindre le serveur.",
+          );
+        });
     } else {
       api
         .post("/api/contacts/", donnees)
@@ -65,9 +71,14 @@ function ContactForm({
           resetForm();
           afficherMessage();
         })
-        .catch((error) =>
-          console.error("Erreur lors de l'ajout du contact :", error),
-        );
+        .catch((error) => {
+          const data = error.response?.data;
+          setErreur(
+            data
+              ? Object.values(data).flat().join(" ")
+              : "Impossible de joindre le serveur.",
+          );
+        });
     }
   };
 
@@ -105,10 +116,15 @@ function ContactForm({
         <label className="field">
           Téléphone
           <input
-            type="text"
+            type="tel"
+            inputMode="tel"
             placeholder="033 33 333 33"
             value={telephone}
-            onChange={(e) => setTelephone(e.target.value)}
+            onChange={(e) =>
+              setTelephone(e.target.value.replace(/[^\d+ ]/g, ""))
+            }
+            pattern="\+?[0-9 ]{8,20}"
+            title="8 à 15 chiffres, avec un + facultatif au début"
             required
           />
         </label>
@@ -133,6 +149,7 @@ function ContactForm({
             <option>Autre</option>
           </select>
         </label>
+        {erreur && <p className="error" role="alert">{erreur}</p>}
         <div className="form-actions">
           <button type="submit" className="btn btn-primary">
             {contactEnEdition ? "Modifier" : "Ajouter"}
