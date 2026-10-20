@@ -351,3 +351,20 @@ tr:last-child td { border-bottom: 0; }
   .pagination-info { width: 100%; text-align: center; }
   .pagination-buttons { justify-content: center; }
 }
+
+/* Fenêtre de confirmation */
+.modal {
+  width: min(420px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--text);
+}
+.modal::backdrop { background: rgba(0, 0, 0, 0.6); }
+.modal-body { padding: 24px; }
+.modal-body h3 { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+.modal-body p { margin: 0 0 22px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-danger { border: 0; background: #c9323a; color: #fff; }
+.btn-danger:hover:not(:disabled) { background: #b02a31; }

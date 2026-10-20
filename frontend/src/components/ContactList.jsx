@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import ConfirmModal from "./ConfirmModal";
 
 function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const [recherche, setRecherche] = useState("");
   const PAR_PAGE = 4;
   const [page, setPage] = useState(1);
+  const [aSupprimer, setASupprimer] = useState(null);
+  const [suppressionEnCours, setSuppressionEnCours] = useState(false);
 
   useEffect(() => {
     api
@@ -15,14 +18,16 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
       );
   }, []);
 
-  const handleDelete = (id) => {
-    if (!window.confirm("Supprimer ce contact ?")) return;
+  const confirmerSuppression = () => {
+    setSuppressionEnCours(true);
     api
-      .delete(`/api/contacts/${id}/`)
-      .then(() => setContacts(contacts.filter((c) => c.id !== id)))
-      .catch((error) =>
-        console.error("Erreur lors de la suppression :", error),
-      );
+      .delete(`/api/contacts/${aSupprimer.id}/`)
+      .then(() => setContacts(contacts.filter((c) => c.id !== aSupprimer.id)))
+      .catch((error) => console.error("Erreur lors de la suppression :", error))
+      .finally(() => {
+        setSuppressionEnCours(false);
+        setASupprimer(null);
+      });
   };
 
   const resultats = contacts.filter((c) =>
@@ -99,7 +104,9 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
                       </span>
                     </div>
                   </td>
-                  <td data-label="Téléphone">{formaterTel(contact.telephone)}</td>
+                  <td data-label="Téléphone">
+                    {formaterTel(contact.telephone)}
+                  </td>
                   <td data-label="Email">{contact.email || "—"}</td>
                   <td data-label="Catégorie">
                     {contact.categorie && (
@@ -135,7 +142,7 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
                       <button
                         className="icon-btn danger"
                         aria-label="Supprimer"
-                        onClick={() => handleDelete(contact.id)}
+                        onClick={() => setASupprimer(contact)}
                       >
                         <svg
                           width="16"
@@ -196,6 +203,18 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
           </div>
         </div>
       )}
+      <ConfirmModal
+        ouvert={aSupprimer !== null}
+        titre="Supprimer ce contact ?"
+        message={
+          aSupprimer
+            ? `${`${aSupprimer.prenom} ${aSupprimer.nom}`.trim()} sera définitivement supprimé. Cette action est irréversible.`
+            : ""
+        }
+        chargement={suppressionEnCours}
+        onConfirm={confirmerSuppression}
+        onCancel={() => setASupprimer(null)}
+      />
     </section>
   );
 }

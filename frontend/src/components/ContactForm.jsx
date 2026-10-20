@@ -106,7 +106,7 @@ function ContactForm({
             Nom (facultatif)
             <input
               type="text"
-              placeholder="Mendrika"
+              placeholder="Votre nom"
               value={nom}
               onChange={(e) => setNom(e.target.value)}
             />
