@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+
 class Contact(models.Model):
     nom = models.CharField(max_length=100)
     prenom = models.CharField(max_length=100)
@@ -11,7 +12,7 @@ class Contact(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='contacts',
+        related_name="contacts",
         null=True,
         blank=True,
     )

@@ -36,6 +36,13 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
   const initiales = (c) =>
     `${c.prenom?.[0] ?? ""}${c.nom?.[0] ?? ""}`.toUpperCase();
 
+  const formaterTel = (tel) => {
+    const n = tel.replace(/\s/g, "");
+    return /^0\d{9}$/.test(n)
+      ? `${n.slice(0, 3)} ${n.slice(3, 5)} ${n.slice(5, 8)} ${n.slice(8)}`
+      : tel;
+  };
+
   return (
     <section className="card list-card">
       <div className="list-header">
@@ -92,8 +99,8 @@ function ContactList({ contacts, setContacts, setContactEnEdition }) {
                       </span>
                     </div>
                   </td>
-                  <td data-label="Téléphone">{contact.telephone}</td>
-                  <td data-label="Email">{contact.email || '—'}</td>
+                  <td data-label="Téléphone">{formaterTel(contact.telephone)}</td>
+                  <td data-label="Email">{contact.email || "—"}</td>
                   <td data-label="Catégorie">
                     {contact.categorie && (
                       <span

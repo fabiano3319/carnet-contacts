@@ -171,6 +171,7 @@ tr:last-child td { border-bottom: 0; }
 .badge-ami { background: #17303a; color: #7dd3e8; }
 .badge-famille { background: #3a1f2e; color: #f4a3c4; }
 .badge-travail { background: #2a2144; color: #b9a6f5; }
+.badge-autre { background: #25262c; color: var(--muted); }
 .badge-aucune { background: #25262c; color: var(--muted); }
 
 .row-actions { display: flex; gap: 8px; justify-content: flex-end; }

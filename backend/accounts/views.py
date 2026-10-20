@@ -7,20 +7,22 @@ from rest_framework.response import Response
 
 from .serializers import RegisterSerializer
 
+
 class LoginView(ObtainAuthToken):
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-    
-@api_view(['POST'])
+
+
+@api_view(["POST"])
 @permission_classes([AllowAny])
 def register(request):
     serializer = RegisterSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key, 'username': user.username}, status=201)
+    return Response({"token": token.key, "username": user.username}, status=201)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def logout(request):
     request.user.auth_token.delete()
