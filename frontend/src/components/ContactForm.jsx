@@ -103,13 +103,12 @@ function ContactForm({
             />
           </label>
           <label className="field">
-            Nom
+            Nom (facultatif)
             <input
               type="text"
-              placeholder="Votre nom"
+              placeholder="Mendrika"
               value={nom}
               onChange={(e) => setNom(e.target.value)}
-              required
             />
           </label>
         </div>
@@ -149,7 +148,11 @@ function ContactForm({
             <option>Autre</option>
           </select>
         </label>
-        {erreur && <p className="error" role="alert">{erreur}</p>}
+        {erreur && (
+          <p className="error" role="alert">
+            {erreur}
+          </p>
+        )}
         <div className="form-actions">
           <button type="submit" className="btn btn-primary">
             {contactEnEdition ? "Modifier" : "Ajouter"}
