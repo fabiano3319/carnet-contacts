@@ -6,7 +6,7 @@ Application web full-stack pour gérer ses contacts personnels : chaque utilisat
 
 > L'API est hébergée sur le plan gratuit de Render : après une période d'inactivité, la première requête peut prendre environ une minute, le temps que le serveur se réveille.
 
-![Aperçu de l'application](docs/screenshot.png)
+![Aperçu de l'application](docs/Capture.PNG)
 
 ## 🎯 Objectif du projet
 
