@@ -96,7 +96,7 @@ function ContactForm({
             Prénom
             <input
               type="text"
-              placeholder="Votre prénom"
+              placeholder="John"
               value={prenom}
               onChange={(e) => setPrenom(e.target.value)}
               required
@@ -106,7 +106,7 @@ function ContactForm({
             Nom (facultatif)
             <input
               type="text"
-              placeholder="Votre nom"
+              placeholder="Martin"
               value={nom}
               onChange={(e) => setNom(e.target.value)}
             />
