@@ -94,6 +94,8 @@ Trois tables PostgreSQL :
 
 Un utilisateur possède **0 à plusieurs contacts** ; chaque contact appartient à un seul utilisateur.
 
+![MPD du projet](docs/MPD.PNG)
+
 ## 🔌 API
 
 Base de l'API en production : `https://carnet-contacts-api.onrender.com`
